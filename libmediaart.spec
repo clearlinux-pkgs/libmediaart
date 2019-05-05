@@ -4,27 +4,25 @@
 #
 Name     : libmediaart
 Version  : 1.9.4
-Release  : 5
+Release  : 6
 URL      : https://download.gnome.org/sources/libmediaart/1.9/libmediaart-1.9.4.tar.xz
 Source0  : https://download.gnome.org/sources/libmediaart/1.9/libmediaart-1.9.4.tar.xz
-Summary  : libmediaart - Media art extraction and cache management library
+Summary  : Library tasked with managing, extracting and handling media art caches
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1
-Requires: libmediaart-lib
-Requires: libmediaart-doc
-Requires: libmediaart-data
+Requires: libmediaart-data = %{version}-%{release}
+Requires: libmediaart-lib = %{version}-%{release}
+Requires: libmediaart-license = %{version}-%{release}
 BuildRequires : bison
+BuildRequires : buildreq-gnome
+BuildRequires : buildreq-meson
 BuildRequires : docbook-xml
 BuildRequires : gdk-pixbuf
-BuildRequires : gobject-introspection-dev
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : libxslt-bin
-BuildRequires : meson
-BuildRequires : ninja
 BuildRequires : pkgconfig(Qt5Gui)
 BuildRequires : pkgconfig(gdk-pixbuf-2.0)
-BuildRequires : python3
 
 %description
 
@@ -40,9 +38,10 @@ data components for the libmediaart package.
 %package dev
 Summary: dev components for the libmediaart package.
 Group: Development
-Requires: libmediaart-lib
-Requires: libmediaart-data
-Provides: libmediaart-devel
+Requires: libmediaart-lib = %{version}-%{release}
+Requires: libmediaart-data = %{version}-%{release}
+Provides: libmediaart-devel = %{version}-%{release}
+Requires: libmediaart = %{version}-%{release}
 
 %description dev
 dev components for the libmediaart package.
@@ -59,10 +58,19 @@ doc components for the libmediaart package.
 %package lib
 Summary: lib components for the libmediaart package.
 Group: Libraries
-Requires: libmediaart-data
+Requires: libmediaart-data = %{version}-%{release}
+Requires: libmediaart-license = %{version}-%{release}
 
 %description lib
 lib components for the libmediaart package.
+
+
+%package license
+Summary: license components for the libmediaart package.
+Group: Default
+
+%description license
+license components for the libmediaart package.
 
 
 %prep
@@ -73,7 +81,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1511464418
+export SOURCE_DATE_EPOCH=1557016470
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -85,8 +100,11 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1511464418
+export SOURCE_DATE_EPOCH=1557016470
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/libmediaart
+cp COPYING %{buildroot}/usr/share/package-licenses/libmediaart/COPYING
+cp COPYING.LESSER %{buildroot}/usr/share/package-licenses/libmediaart/COPYING.LESSER
 %make_install
 
 %files
@@ -96,6 +114,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/lib64/girepository-1.0/MediaArt-2.0.typelib
 /usr/share/gir-1.0/*.gir
+/usr/share/vala/vapi/libmediaart-2.0.vapi
 
 %files dev
 %defattr(-,root,root,-)
@@ -108,7 +127,7 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/libmediaart-2.0.pc
 
 %files doc
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/gtk-doc/html/libmediaart/annotation-glossary.html
 /usr/share/gtk-doc/html/libmediaart/ch02.html
 /usr/share/gtk-doc/html/libmediaart/home.png
@@ -132,3 +151,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/lib64/libmediaart-2.0.so.0
 /usr/lib64/libmediaart-2.0.so.0.904.0
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libmediaart/COPYING
+/usr/share/package-licenses/libmediaart/COPYING.LESSER
