@@ -4,7 +4,7 @@
 #
 Name     : libmediaart
 Version  : 1.9.4
-Release  : 6
+Release  : 7
 URL      : https://download.gnome.org/sources/libmediaart/1.9/libmediaart-1.9.4.tar.xz
 Source0  : https://download.gnome.org/sources/libmediaart/1.9/libmediaart-1.9.4.tar.xz
 Summary  : Library tasked with managing, extracting and handling media art caches
