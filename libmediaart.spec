@@ -4,10 +4,10 @@
 #
 Name     : libmediaart
 Version  : 1.9.4
-Release  : 7
+Release  : 8
 URL      : https://download.gnome.org/sources/libmediaart/1.9/libmediaart-1.9.4.tar.xz
 Source0  : https://download.gnome.org/sources/libmediaart/1.9/libmediaart-1.9.4.tar.xz
-Summary  : Library tasked with managing, extracting and handling media art caches
+Summary  : libmediaart - Media art extraction and cache management library
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1
 Requires: libmediaart-data = %{version}-%{release}
@@ -75,36 +75,38 @@ license components for the libmediaart package.
 
 %prep
 %setup -q -n libmediaart-1.9.4
+cd %{_builddir}/libmediaart-1.9.4
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1557016470
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1586241108
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1557016470
+export SOURCE_DATE_EPOCH=1586241108
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libmediaart
-cp COPYING %{buildroot}/usr/share/package-licenses/libmediaart/COPYING
-cp COPYING.LESSER %{buildroot}/usr/share/package-licenses/libmediaart/COPYING.LESSER
+cp %{_builddir}/libmediaart-1.9.4/COPYING %{buildroot}/usr/share/package-licenses/libmediaart/4cc77b90af91e615a64ae04893fdffa7939db84c
+cp %{_builddir}/libmediaart-1.9.4/COPYING.LESSER %{buildroot}/usr/share/package-licenses/libmediaart/01a6b4bf79aca9b556822601186afab86e8c4fbf
 %make_install
 
 %files
@@ -154,5 +156,5 @@ cp COPYING.LESSER %{buildroot}/usr/share/package-licenses/libmediaart/COPYING.LE
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libmediaart/COPYING
-/usr/share/package-licenses/libmediaart/COPYING.LESSER
+/usr/share/package-licenses/libmediaart/01a6b4bf79aca9b556822601186afab86e8c4fbf
+/usr/share/package-licenses/libmediaart/4cc77b90af91e615a64ae04893fdffa7939db84c
