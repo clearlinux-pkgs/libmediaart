@@ -4,7 +4,7 @@
 #
 Name     : libmediaart
 Version  : 1.9.6
-Release  : 13
+Release  : 14
 URL      : https://download.gnome.org/sources/libmediaart/1.9/libmediaart-1.9.6.tar.xz
 Source0  : https://download.gnome.org/sources/libmediaart/1.9/libmediaart-1.9.6.tar.xz
 Summary  : No detailed summary available
@@ -69,7 +69,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1654116910
+export SOURCE_DATE_EPOCH=1664158095
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -90,8 +90,8 @@ meson test -C builddir --print-errorlogs
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libmediaart
-cp %{_builddir}/libmediaart-1.9.6/COPYING %{buildroot}/usr/share/package-licenses/libmediaart/4cc77b90af91e615a64ae04893fdffa7939db84c
-cp %{_builddir}/libmediaart-1.9.6/COPYING.LESSER %{buildroot}/usr/share/package-licenses/libmediaart/01a6b4bf79aca9b556822601186afab86e8c4fbf
+cp %{_builddir}/libmediaart-%{version}/COPYING %{buildroot}/usr/share/package-licenses/libmediaart/4cc77b90af91e615a64ae04893fdffa7939db84c || :
+cp %{_builddir}/libmediaart-%{version}/COPYING.LESSER %{buildroot}/usr/share/package-licenses/libmediaart/01a6b4bf79aca9b556822601186afab86e8c4fbf || :
 DESTDIR=%{buildroot} ninja -C builddir install
 
 %files
